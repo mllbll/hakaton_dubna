@@ -13,6 +13,8 @@
 
 В этом проекте реализуется биллинговое веб-приложение. 
 
+Вот видео-демонстрация его работы : https://drive.google.com/file/d/16z52nCaKNqRSboUqVeVlbeO_UOdJ1xGj/view?usp=sharing
+
 Большая часть работы написана на языке программирования python, с использованием таких библиотек как django, sqlalchemy, psycopg2
 
 База данных реализована на Postgresql
