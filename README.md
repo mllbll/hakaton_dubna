@@ -1,5 +1,6 @@
 Здесь представлена работа команды Brooklyn Style(MISIS). 
 В составе команды :
+
 Татарников Иван Борисович (Tech Lead, backend developer)
 
 Цыпкин Артем Денисович (full-stack developer)
