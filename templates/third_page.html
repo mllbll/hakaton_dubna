@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить/изменить данные о клиенте</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/styles_third.css' %}">
+</head>
+<body>
+<div class="container">
+    <form action="{% url 'add_client_data' %}" method="post">
+        {% csrf_token %}
+        <label for="fio">ФИО:</label><br>
+        <input type="text" id="fio" name="fio" class="input-field"><br>
+
+        <label for="balance">Баланс:</label><br>
+        <input type="text" id="balance" name="balance" class="input-field"><br>
+
+        <label for="lim">Лимит:</label><br>
+        <input type="text" id="lim" name="lim" class="input-field"><br>
+
+        <label for="status">Статус:</label><br>
+        <input type="text" id="status" name="status" class="input-field"><br>
+
+        <label for="type_face">Тип лица:</label><br>
+        <input type="text" id="type_face" name="type_face" class="input-field"><br>
+
+        <label for="payments">Платежи:</label><br>
+        <input type="text" id="payments" name="payments" class="input-field"><br>
+
+        <label for="expenses">Расходы:</label><br>
+        <input type="text" id="expenses" name="expenses" class="input-field"><br>
+
+        <label for="services">Подключенные сервисы:</label><br>
+        <input type="text" id="services" name="services" class="input-field"><br>
+
+        <label for="adjustment">Корректировка:</label><br>
+        <input type="text" id="adjustment" name="adjustment" class="input-field"><br>
+
+        <button type="submit" class="btn-large">Сохранить</button>
+    </form>
+</div>
+</body>
+</html>
