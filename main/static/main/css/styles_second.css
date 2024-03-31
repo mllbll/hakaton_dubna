@@ -1,0 +1,34 @@
+/* Фоновый цвет */
+body {
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Для центрирования по вертикали */
+}
+
+/* Стилизация поля ввода */
+.input-field {
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Стилизация кнопки */
+.btn-large {
+    background-color: #008CBA;
+    color: white;
+    padding: 15px 30px; /* Увеличиваем размер кнопки */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px; /* Увеличиваем размер текста на кнопке */
+    margin-top: 20px; /* Отступ от остальных элементов */
+}
+
+.btn-large:hover {
+    background-color: #005f6b;
+}

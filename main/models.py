@@ -127,6 +127,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
+from django.db import models
 
 class ClientData(Base):
     __tablename__ = 'client_data'
@@ -161,3 +162,17 @@ class Client(Base):
     fk_users_id = Column(Integer, ForeignKey('client_data.id'))
     client_data = relationship("ClientData", back_populates="clients")
 
+class Product_1(models.Model):
+    id = models.IntegerField(primary_key=True, db_column='id')
+    balance = models.IntegerField(db_column='balance')
+    lim = models.IntegerField(db_column='lim')
+    status = models.CharField(max_length=255, db_column='status')
+    type_face = models.CharField(max_length=255, db_column='type_face')
+    payments = models.CharField(max_length=255, db_column='payments')
+    expenses = models.IntegerField(db_column='expenses')
+    services = models.CharField(max_length=255, db_column='services')
+    adjustment = models.CharField(max_length=255, db_column='adjustment')
+
+    class Meta:
+        managed = False
+        db_table = 'client'

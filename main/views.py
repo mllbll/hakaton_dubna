@@ -222,38 +222,48 @@ def input_values(request):
         # Создаем сессию
         session = SessionLocal()
 
-        # Выполняем запрос к базе данных
-        client_data = session.query(ClientData).filter_by(fio=fio).first()
+        try:
+            # Выполняем запрос к базе данных
+            client_data = session.query(ClientData).filter(ClientData.fio == fio).first()
 
-        # Если клиентные данные не найдены, возвращаем ошибку
-        if not client_data:
-            error_message = "Не найдено совпадений по ФИО"
-        else:
-            # Получаем соответствующего клиента через связь с ClientData
-            client = client_data.clients[0]  # Получаем первого клиента из связанных клиентов
+            # Если клиентные данные не найдены, возвращаем ошибку
+            if not client_data:
+                error_message = "Не найдено совпадений по ФИО"
+            else:
+                # Получаем коллекцию клиентов через связь с ClientData
+                clients = client_data.clients
 
-            # Получаем значения нужных столбцов
-            balance = client.balance
-            lim = client.lim
-            status = client.status
-            type_face = client.type_face
-            payments = client.payments
-            expenses = client.expenses
-            services = client.services
-            adjustment = client.adjustment
+                # Получаем первого клиента из коллекции, если она не пуста
+                if clients:
+                    client = clients[0]
 
-            # Сохраняем значения в кэш
-            cache.set('balance', balance)
-            cache.set('lim', lim)
-            cache.set('status', status)
-            cache.set('type_face', type_face)
-            cache.set('payments', payments)
-            cache.set('expenses', expenses)
-            cache.set('services', services)
-            cache.set('adjustment', adjustment)
+                    # Получаем значения нужных столбцов
+                    balance = client.balance
+                    lim = client.lim
+                    status = client.status
+                    type_face = client.type_face
+                    payments = client.payments
+                    expenses = client.expenses
+                    services = client.services
+                    adjustment = client.adjustment
 
-        # Закрываем сессию
-        session.close()
+                    # Сохраняем значения в кэш
+                    cache.set('balance', balance)
+                    cache.set('lim', lim)
+                    cache.set('status', status)
+                    cache.set('type_face', type_face)
+                    cache.set('payments', payments)
+                    cache.set('expenses', expenses)
+                    cache.set('services', services)
+                    cache.set('adjustment', adjustment)
+                else:
+                    error_message = "Не найдено совпадений по ФИО"
+        except Exception as e:
+            # Обработка ошибок
+            error_message = f"Произошла ошибка: {e}"
+        finally:
+            # Закрываем сессию
+            session.close()
 
     return render(request, 'input_product_id.html', {
         'error_message': error_message,
@@ -266,7 +276,6 @@ def input_values(request):
         'services': services,
         'adjustment': adjustment
     })
-
 
 
 def add_user_data(request):
@@ -282,18 +291,14 @@ def add_user_data(request):
         session = SessionLocal()
 
         try:
-            # Получаем fk_users_id (client_id) из таблицы ClientData по значению fio
-            client_id = session.query(ClientData).filter_by(fio=fio).first().fk_users_id
-
-            # Создаем объект ClientData с использованием client_id для связи с таблицей Product
+            # Создаем объект ClientData с использованием данных из формы
             client_data = ClientData(
                 org_name=org_name,
                 fio=fio,
                 phone_number=phone_number,
                 email=email,
                 birthday_date=birthday_date,
-                connection_address=connection_address,
-                fk_users_id=client_id  # Используем полученный fk_users_id (client_id) для связи
+                connection_address=connection_address
             )
 
             # Добавляем объект в сессию и сохраняем его в базе данных
