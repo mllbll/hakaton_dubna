@@ -1,9 +1,14 @@
 Здесь представлена работа команды Brooklyn Style(MISIS). 
-В составе команды : Татарников Иван Борисович (Tech Lead, backend developer)
-                    Цыпкин Артем Денисович (full-stack developer)
-                    Святогорова Ксения Евгеньевна (designer, frontend developer)
-                    Куркубет Варвара Михайловна (designer, frontend developer)
-                    Крюкова Екатерина Николаевна (designer, frontend developer)
+В составе команды :
+Татарников Иван Борисович (Tech Lead, backend developer)
+
+Цыпкин Артем Денисович (full-stack developer)
+
+Святогорова Ксения Евгеньевна (designer, frontend developer)
+
+Куркубет Варвара Михайловна (designer, frontend developer)
+
+Крюкова Екатерина Николаевна (designer, frontend developer)
 
 В этом проекте реализуется биллинговое веб-приложение. 
 Большая часть работы написана на языке программирования python, с использованием таких библиотек как django, sqlalchemy, psycopg2
