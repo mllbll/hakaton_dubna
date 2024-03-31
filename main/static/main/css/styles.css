@@ -1,0 +1,66 @@
+/* styles.css */
+
+/* Фоновый цвет */
+body {
+    background-color: lightblue;
+}
+
+/* Стилизация поля ввода ФИО */
+.input-field {
+    width: 300px;
+    height: 40px;
+    border-radius: 20px; /* Для создания овальной формы */
+    padding: 10px;
+    font-size: 20px;
+}
+
+/* Стилизация кнопки "Поиск" */
+.btn {
+    background-color: #4CAF50; /* Зеленый цвет */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #45a049; /* Темно-зеленый цвет при наведении */
+}
+
+/* Стилизация сообщения об ошибке */
+.error-message {
+    color: red;
+}
+
+/* Стилизация блока информации о продукте */
+.product-info {
+    margin-top: 20px;
+}
+
+/* Стилизация каждой строки в блоке информации о продукте */
+.product-info ul li {
+    background-color: white;
+    border-radius: 20px; /* Прямоугольные скругленные окна */
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Новые стили для кнопки "Добавить пользователя" */
+.add-user-btn {
+    background-color: #008CBA; /* Цвет синего тонира */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left: 20px; /* Перемещение кнопки вправо */
+}
+
+.add-user-btn:hover {
+    background-color: #005f6b; /* Темно-синий цвет при наведении */
+}

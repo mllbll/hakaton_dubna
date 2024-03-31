@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input FIO</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="fio">Введите ФИО:</label>
+            <input type="text" id="fio" name="fio" class="input-field">
+            <button type="submit" class="btn" name="action" value="search">Поиск</button>
+            <!-- Переместить кнопку "Добавить пользователя" после кнопки "Поиск" -->
+            <button type="button" class="add-user-btn">Добавить пользователя</button>
+        </form>
+    </div>
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+    {% if balance %}
+        <div class="product-info">
+            <h2>Данные о пользователе:</h2>
+            <ul>
+                <li>Баланс: {{ balance }}</li>
+                <li>Лимит: {{ lim }}</li>
+                <li>Статус: {{ status }}</li>
+                <li>Тип лица: {{ type_face }}</li>
+                <li>Платежи: {{ payments }}</li>
+                <li>Расходы: {{ expenses }}</li>
+                <li>Сервисы: {{ services }}</li>
+                <li>Корректировка: {{ adjustment }}</li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- JavaScript для перенаправления на новую страницу -->
+    <script>
+    document.querySelector('.add-user-btn').addEventListener('click', function() {
+        window.location.href = "{% url 'add_user_page' %}";
+    });
+    </script>
+</body>
+</html>
