@@ -10,13 +10,15 @@
 </head>
 <body>
 <div class="container">
-    <form action="" method="post">
+    <form id="delete-form" method="post">
         {% csrf_token %}
         <label for="fio">Введите ФИО:</label>
         <input type="text" id="fio" name="fio" class="input-field">
         <button type="submit" class="btn" name="action" value="search">Поиск</button>
         <button type="button" class="add-user-btn">Добавить пользователя</button>
         <button type="button" class="add-user-btn edit-user-btn">Изменить данные о пользователе</button>
+        <!-- Кнопка удаления пользователя -->
+        <button type="button" id="delete-user-btn" class="delete-user-btn">Удалить пользователя</button>
     </form>
 </div>
 {% if error_message %}
@@ -39,13 +41,61 @@
 {% endif %}
 
 <script>
-    document.querySelector('.add-user-btn').addEventListener('click', function () {
-        window.location.href = "{% url 'add_user_page' %}";
-    });
+document.querySelector('.add-user-btn').addEventListener('click', function () {
+    window.location.href = "{% url 'add_user_page' %}";
+});
 
-    document.querySelector('.edit-user-btn').addEventListener('click', function () {
-        window.location.href = "{% url 'edit_user_page' %}";
-    });
+document.querySelector('.edit-user-btn').addEventListener('click', function () {
+    window.location.href = "{% url 'edit_user_page' %}";
+});
+
+// Обработчик события для кнопки удаления пользователя
+document.getElementById('delete-user-btn').addEventListener('click', function () {
+    var fioToDelete = document.getElementById('fio').value;
+    if (confirm('Вы уверены, что хотите удалить пользователя?')) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'delete_user' %}", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        // Получаем CSRF-токен из cookies
+        var csrftoken = getCookie('csrftoken');
+        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert('Пользователь успешно удален');
+                        window.location.reload();
+                    } else {
+                        alert('Ошибка при удалении пользователя: ' + response.message);
+                    }
+                } else {
+                    alert('Ошибка сервера: ' + xhr.status);
+                }
+            }
+        };
+        xhr.send('fio=' + encodeURIComponent(fioToDelete));
+    }
+});
+
+// Функция для получения значения cookies по имени
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 </script>
 </body>
 </html>

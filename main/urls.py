@@ -7,4 +7,6 @@ urlpatterns = [
     path('add_user_data/', views.add_user_data, name='add_user_data'),
     path('edit_user/', views.edit_user_page, name='edit_user_page'),
     path('add_client_data/', views.add_client_data, name='add_client_data'),  # Добавьте эту строку
+    path('delete_user/', views.delete_user, name='delete_user'),
+
 ]

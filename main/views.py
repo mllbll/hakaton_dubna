@@ -1,5 +1,10 @@
 from django.core.cache import cache
-
+from .database import SessionLocal
+from .models import Client
+from django.shortcuts import render, redirect
+from .models import ClientData
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 def input_values(request):
@@ -58,7 +63,7 @@ def input_values(request):
                     error_message = "Не найдено совпадений по ФИО"
         except Exception as e:
             # Обработка ошибок
-            error_message = f"Произошла ошибка: {e}"
+            error_message = f"Произошла ошибка"
         finally:
             # Закрываем сессию
             session.close()
@@ -118,11 +123,6 @@ def add_user_data(request):
     return render(request, 'second_page.html')
 
 
-from .models import ClientData, Client
-from django.shortcuts import render, redirect
-from .database import SessionLocal  # Подключите ваш способ работы с базой данных
-
-
 def add_client_data(request):
     if request.method == 'POST':
         # Получаем данные из POST-запроса
@@ -177,6 +177,44 @@ def add_client_data(request):
 
     # Если запрос не POST, просто возвращаем пустую страницу или другую страницу по вашему желанию
     return render(request, 'third_page.html')
+
+
+
+
+@csrf_exempt  # Позволяет обойти CSRF-защиту для этого представления (используется для демонстрации, лучше использовать правильное решение для CSRF)
+def delete_user(request):
+    if request.method == 'POST':
+        fio = request.POST.get('fio')
+
+        # Создаем сессию SQLAlchemy
+        session = SessionLocal()
+
+        try:
+            # Находим пользователя по FIO
+            client_data = session.query(ClientData).filter(ClientData.fio == fio).first()
+
+            # Если пользователь найден, удаляем его и возвращаем успешный ответ
+            if client_data:
+                # Удаляем связанные с пользователем записи в таблице Client
+                session.query(Client).filter(Client.fk_users_id == client_data.id).delete()
+                session.commit()
+
+                # Удаляем самого пользователя
+                session.delete(client_data)
+                session.commit()
+
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'message': 'Пользователь не найден'}, status=404)
+        except Exception as e:
+            # В случае ошибки возвращаем сообщение об ошибке
+            return JsonResponse({'success': False, 'message': 'Произошла ошибка при удалении пользователя'}, status=500)
+        finally:
+            # Закрываем сессию
+            session.close()
+
+    # Если запрос не POST, возвращаем ошибку "Метод не разрешен"
+    return JsonResponse({'success': False, 'message': 'Метод не разрешен'}, status=405)
 
 
 def add_user_page(request):
